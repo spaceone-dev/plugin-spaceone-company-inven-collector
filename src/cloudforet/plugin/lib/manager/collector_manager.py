@@ -3,7 +3,7 @@ from typing import Generator
 
 from spaceone.core.error import *
 from spaceone.core.manager import BaseManager
-from cloudforet.plugin.lib.model.resource_info_model import ResourceInfo
+from cloudforet.plugin.lib.model.resource_info_model import ResourceInfo, State
 from cloudforet.plugin.lib.model.plugin_info_model import ResourceType
 from cloudforet.plugin.model.collector import CollectorPluginInfo
 
@@ -20,7 +20,8 @@ class CollectorManager(BaseManager):
         self.provider = None
 
     def init_response(self, options: dict) -> dict:
-        return CollectorPluginInfo.dict()
+        response = CollectorPluginInfo()
+        return response.dict()
 
     def verify_client(self, options: dict, secret_data: dict, schema: str) -> None:
         raise NotImplementedError('Method not implemented!')
@@ -36,6 +37,7 @@ class CollectorManager(BaseManager):
     def make_response(self, resource_data: dict, match_rules: dict,
                       resource_type: str = 'inventory.CloudService') -> dict:
         return self.validate_response({
+            'state': State.success,
             'resource_type': resource_type,
             'match_rules': match_rules,
             'resource': resource_data
@@ -47,6 +49,7 @@ class CollectorManager(BaseManager):
 
         _LOGGER.error(f'[error_response] ({self.region_name}) {error.error_code}: {error.message}', exc_info=True)
         return self.validate_response({
+            'state': State.failre,
             'message': error.message,
             'resource_type': ResourceType.error,
             'resource': {

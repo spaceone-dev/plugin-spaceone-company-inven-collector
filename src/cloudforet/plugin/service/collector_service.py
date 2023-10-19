@@ -1,8 +1,10 @@
 import logging
+import itertools
 from typing import Generator
 
 from spaceone.core.service import *
-from cloudforet.plugin.manager.my_service_manager import MyServiceManager
+from cloudforet.plugin.lib.manager.collector_manager import CollectorManager
+from cloudforet.plugin.conf.application_conf import SERVICE_GROUP_MAP
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -28,7 +30,7 @@ class CollectorService(BaseService):
 
         options = params.get('options', {})
 
-        collector_mgr: MyServiceManager = self.locator.get_manager(MyServiceManager)
+        collector_mgr: CollectorManager = self.locator.get_manager(CollectorManager)
         return collector_mgr.init_response(options)
 
     @transaction
@@ -47,15 +49,18 @@ class CollectorService(BaseService):
         Returns:
             None
         """
+
         options = params['options']
         secret_data = params['secret_data']
         schema = params.get('schema')
 
-        collector_mgr: MyServiceManager = self.locator.get_manager(MyServiceManager)
-        collector_mgr.verify_client(options, secret_data, schema)
+        execute_managers = self._get_execute_manger(options)
+        for execute_manager in execute_managers:
+            collector_mgr = self.locator.get_manager(execute_manager)
+            collector_mgr.verify_client(options, secret_data, schema)
 
     @transaction
-    @check_required(['options', 'secret_data', 'filter'])
+    @check_required(['options', 'secret_data'])
     def collect(self, params):
         """ Collect external data
 
@@ -75,8 +80,20 @@ class CollectorService(BaseService):
         secret_data = params['secret_data']
         schema = params.get('schema')
 
-        collector_mgr: MyServiceManager = self.locator.get_manager(MyServiceManager)
-        iterator: Generator = collector_mgr.collect(options, secret_data, schema)
+        execute_managers = self._get_execute_manger(options)
+        for execute_manager in execute_managers:
+            collector_mgr = self.locator.get_manager(execute_manager)
+            yield from collector_mgr.collect(options, secret_data, schema)
 
-        for resource_data in iterator:
-            yield resource_data
+    def _get_execute_manger(self, options):
+        if 'cloud_service_types' in options:
+            execute_managers = self._match_execute_manager(options['cloud_service_types'])
+        else:
+            execute_managers = SERVICE_GROUP_MAP.values()
+
+        return list(itertools.chain(*execute_managers))
+
+    @staticmethod
+    def _match_execute_manager(service_groups):
+        return [SERVICE_GROUP_MAP[service_group] for service_group in service_groups
+                if service_group in SERVICE_GROUP_MAP]
