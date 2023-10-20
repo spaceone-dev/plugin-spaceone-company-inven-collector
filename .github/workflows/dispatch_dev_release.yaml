@@ -1,0 +1,12 @@
+name: "[Dispatch] Dev Release"
+
+on:
+  workflow_dispatch:
+
+jobs:
+  template:
+    runs-on: ubuntu-latest
+    steps:
+      - name: none
+        run: echo "template"
+
