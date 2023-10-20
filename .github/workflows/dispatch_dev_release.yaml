@@ -2,6 +2,18 @@ name: "[Dispatch] Dev Release"
 
 on:
   workflow_dispatch:
+      inputs:
+        container_arch:
+          type: choice
+          description: 'choose container architecture'
+          default: linux/amd64,linux/arm64
+          options:
+          - "linux/amd64"
+          - "linux/arm64"
+          - "linux/amd64,linux/arm64"
+
+env:
+  ARCH: ${{ github.event.inputs.container_arch }}
 
 jobs:
   versioning:
@@ -9,7 +21,10 @@ jobs:
     outputs:
       version: ${{ steps.versioning.outputs.VERSION }}
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_USER_TOKEN }}
       - name: get current date
         run: |
           sudo ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime
@@ -25,7 +40,10 @@ jobs:
     env:
       VERSION: ${{ needs.versioning.outputs.version }}
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_USER_TOKEN }}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
@@ -45,5 +63,6 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
+          platforms: ${{ env.ARCH }}
           push: true
-          tags: ${{ secrets.ECR_REPO }}:${{ env.VERSION }}
+          tags: ${{ secrets.DEV_ECR_REPO }}:${{ env.VERSION }}
