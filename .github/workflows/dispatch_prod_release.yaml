@@ -2,6 +2,11 @@ name: "[Dispatch] Prod Release"
 
 on:
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'enter version(x.y.z)'
+        required: true
+        default: '1.0.0'
 
 jobs:
   template:
