@@ -14,5 +14,5 @@ class CollectorPluginInfo(PluginInfo):
         'supported_features': [
             Feature.garbage_collection
         ],
-        'options_schema': {}
+        'filter_format': []
     }
