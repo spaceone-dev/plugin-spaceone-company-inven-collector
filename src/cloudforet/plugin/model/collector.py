@@ -14,5 +14,22 @@ class CollectorPluginInfo(PluginInfo):
         'supported_features': [
             Feature.garbage_collection
         ],
-        'filter_format': []
+        'filter_format': [],
+        'options_schema': {
+            'required': ['regions'],
+            'order': ['regions'],
+            'type': 'object',
+            'properties': {
+                'regions': {
+                    'title': 'Region Filter',
+                    'type': 'array',
+                    'items': {
+                        'enum': [
+                            'ap-northeast-1',
+                            'ap-northeast-2'
+                        ]
+                    }
+                }
+            }
+        }
     }
