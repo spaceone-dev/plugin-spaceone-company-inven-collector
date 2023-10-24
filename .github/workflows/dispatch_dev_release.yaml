@@ -32,7 +32,7 @@ jobs:
       - name: Set version with current date
         id: versioning
         run: |
-          echo "VERSION=$(cat src/VERSION).${{ env.TIME }}" >> $GITHUB_OUTPUT
+          echo "VERSION=$(sed 's/v//' < src/VERSION).${{ env.TIME }}" >> $GITHUB_OUTPUT
 
   docker:
     runs-on: ubuntu-latest
@@ -66,3 +66,4 @@ jobs:
           platforms: ${{ env.ARCH }}
           push: true
           tags: ${{ secrets.DEV_ECR_REPO }}:${{ env.VERSION }}
+          provenance: false
