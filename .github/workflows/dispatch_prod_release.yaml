@@ -104,3 +104,4 @@ jobs:
           platforms: ${{ env.ARCH }}
           push: true
           tags: ${{ secrets.PROD_ECR_REPO }}:${{ env.VERSION }}
+          provenance: false
