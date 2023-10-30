@@ -23,7 +23,8 @@ class DevelopmentMemberManager(CollectorManager):
     def collect(self, options, secret_data, schema):
         try:
             # Collect Cloud Service Type
-            cloud_service_type = CloudServiceType(name=self.cloud_service_type, provider=self.provider)
+            cloud_service_type = CloudServiceType(group=self.cloud_service_group, name=self.cloud_service_type,
+                                                  provider=self.provider)
             yield self.make_response(
                 cloud_service_type.dict(),
                 {'1': ['name', 'group', 'provider']},

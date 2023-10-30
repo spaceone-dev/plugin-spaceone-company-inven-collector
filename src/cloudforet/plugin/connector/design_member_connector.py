@@ -11,8 +11,6 @@ class DesignMemberConnector(BaseConnector):
         super().__init__(*args, **kwargs)
 
     def verify_client(self, options: dict, secret_data: dict, schema: str):
-        """
-        """
         self._check_secret_data(secret_data)
 
     def list_members(self, department_name) -> dict:
@@ -29,7 +27,7 @@ class DesignMemberConnector(BaseConnector):
                 {
                     'id': 'member-02', 'name': 'sangchul', 'part': 'designer',
                     'email': 'sangchul@spaceone.com', 'join_date': '2012-09-01'
-                },
+                }
             ]
         }
         return response
