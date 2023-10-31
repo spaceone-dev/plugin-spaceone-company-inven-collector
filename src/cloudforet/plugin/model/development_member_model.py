@@ -61,7 +61,7 @@ _METADATA = {
         'sub_data': {
             'layouts': [
                 {
-                    'type': 'table',
+                    'type': 'list',
                     'name': 'Details',
                     'options': {
                         'fields': [
