@@ -58,35 +58,44 @@ _METADATA = {
         'widget': [
 
         ],
-        'sub_data': {
-            'layouts': [
+        "sub_data": {
+            "layouts": [
                 {
-                    'type': 'list',
-                    'name': 'Details',
-                    'options': {
-                        'fields': [
+                    "type": "list",
+                    "name": "Details",
+                    "options": {
+                        "layouts": [
                             {
-                                'type': 'text',
-                                'key': 'id',
-                                'name': 'Member ID'
-                            },
-                            {
-                                'type': 'text',
-                                'key': 'part',
-                                'name': 'Part',
-                            },
-                            {
-                                'type': 'text',
-                                'key': 'email',
-                                'name': 'Email',
-                            },
-                            {
-                                'type': 'text',
-                                'key': 'join_date',
-                                'name': 'Join Date',
+                                "type": "item",
+                                "name": "Details",
+                                "options": {
+                                    "fields": [
+                                        {
+                                            'type': 'text',
+                                            'key': 'id',
+                                            'name': 'Member ID'
+                                        },
+                                        {
+                                            'type': 'text',
+                                            'key': 'part',
+                                            'name': 'Part',
+                                        },
+                                        {
+                                            'type': 'text',
+                                            'key': 'email',
+                                            'name': 'Email',
+                                        },
+                                        {
+                                            'type': 'text',
+                                            'key': 'join_date',
+                                            'name': 'Join Date',
+                                        }
+
+                                    ],
+                                    'root_path': 'data'
+                                }
                             }
-                        ],
-                        'root_path': 'data'
+                        ]
                     }
                 }
             ]
