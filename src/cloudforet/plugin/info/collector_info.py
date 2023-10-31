@@ -1,3 +1,4 @@
+from spaceone.core import utils
 from spaceone.api.inventory.plugin import collector_pb2
 from spaceone.core.pygrpc.message_type import *
 

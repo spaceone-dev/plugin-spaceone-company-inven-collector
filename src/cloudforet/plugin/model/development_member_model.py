@@ -61,39 +61,41 @@ _METADATA = {
         "sub_data": {
             "layouts": [
                 {
-                    "type": "list",
                     "name": "Details",
+                    "type": "list",
                     "options": {
                         "layouts": [
                             {
-                                "type": "item",
-                                "name": "Details",
                                 "options": {
                                     "fields": [
                                         {
-                                            'type': 'text',
-                                            'key': 'id',
+                                            'key': 'data.id',
                                             'name': 'Member ID'
                                         },
                                         {
-                                            'type': 'text',
-                                            'key': 'part',
+                                            'key': 'data.part',
                                             'name': 'Part',
-                                        },
-                                        {
-                                            'type': 'text',
-                                            'key': 'email',
-                                            'name': 'Email',
-                                        },
-                                        {
-                                            'type': 'text',
-                                            'key': 'join_date',
-                                            'name': 'Join Date',
                                         }
-
-                                    ],
-                                    'root_path': 'data'
-                                }
+                                    ]
+                                },
+                                "name": "Division",
+                                "type": "item"
+                            },
+                            {
+                                "options": {
+                                    "fields": [
+                                        {
+                                            'key': 'data.email',
+                                            'name': 'Email'
+                                        },
+                                        {
+                                            'key': 'data.join_date',
+                                            'name': 'Join Date'
+                                        }
+                                    ]
+                                },
+                                "name": "Private",
+                                "type": "item"
                             }
                         ]
                     }
